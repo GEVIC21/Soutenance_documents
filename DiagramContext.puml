@@ -1,0 +1,63 @@
+@startuml
+
+' Titre avec style
+title Diagramme de Contexte pour une Application de E-commerce
+skinparam titleFontSize 20
+skinparam titleFontColor #3A3A3A
+skinparam titleBorderColor #3A3A3A
+
+left to right direction
+
+' Définir les couleurs globales
+skinparam backgroundColor #F9F9F9
+skinparam component {
+    BackgroundColor #CCE5FF
+    ArrowColor #999999
+    ArrowFontSize 12
+    ArrowThickness 2
+}
+
+' Acteurs avec styles
+skinparam actor {
+    FontSize 14
+    FontColor #3A3A3A
+    BackgroundColor #FFF3CD
+    BorderColor #FFDD00
+}
+
+' Styles pour les packages
+skinparam package {
+    BackgroundColor #E0E7FF
+    BorderColor #3A3A3A
+}
+
+' Acteurs utilisateurs
+actor Customer as "Client"
+actor Admin as "Administrateur"
+
+' Systèmes externes
+actor PaymentGateway as "Passerelle de Paiement"
+actor SupplierSystem as "Système Fournisseur"
+actor EmailService as "Service d'Envoi d'Emails"
+
+' Système principal
+package "Application de E-commerce" {
+    [Navigation Produits] as Produits
+    [Gestion Commandes] as Commandes
+    [Gestion Comptes Utilisateurs] as Comptes
+}
+
+' Connexions
+Customer --> Produits : "Consulte Produits"
+Customer --> Commandes : "Passe Commandes"
+Customer --> Comptes : "Gère son compte"
+
+Admin --> Produits : "Gère Produits"
+Admin --> Commandes : "Supervise Commandes"
+Admin --> Comptes : "Gère Comptes Utilisateurs"
+
+Produits --> SupplierSystem : "Synchronisation Produits"
+Commandes --> PaymentGateway : "Traitement Paiement"
+Commandes --> EmailService : "Envoi Confirmation d'Achat / Notifications"
+
+@enduml
