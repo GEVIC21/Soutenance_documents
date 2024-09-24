@@ -1,0 +1,60 @@
+@startuml
+
+'Table Produit
+'class Products2 {
+'  +id : int
+'  +name : string
+'  +title : string
+'  +thumb_image : text
+'  +vendor_id : int
+'  +category_id : string
+'  +sub_category_id : int
+'  +child_category_id : int
+'  +brand_id : int
+'  +quantity : int
+'  +short_description : text
+'  +long_description : text
+'  +video_link : text
+'  +sku : string
+'  +price : double
+'  +offer_price : double
+'  +offer_start_date : date
+'  +offer_end_date : date
+'  +is_top : boolean
+'  +is_best : boolean
+'  +is_featured : boolean
+'  +status : boolean
+'  +seo_title : string
+'  +seo_description : text
+'  +is_approved : int
+'
+'}
+
+class Products1
+{
+    +id : int
+    +title: string
+    +slug: string
+    +image:string
+    +image_mime: string
+    +image_size: int
+    +description: longText
+    +price: double
+    +created_by: timestamp
+    +updated_by: timestamp
+    +deleted_by: timestamp
+}
+
+class categories   {
+    +id : int
+    +name : string
+    +slug : string
+    +parent_id : int
+    +status : boolean
+    +created_by : timestamp
+    +updated_by : timestamp
+    +deleted_by : timestamp
+}
+
+
+@enduml
