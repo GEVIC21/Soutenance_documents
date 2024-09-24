@@ -1,60 +1,162 @@
 @startuml
 
-'Table Produit
-'class Products2 {
-'  +id : int
-'  +name : string
-'  +title : string
-'  +thumb_image : text
-'  +vendor_id : int
-'  +category_id : string
-'  +sub_category_id : int
-'  +child_category_id : int
-'  +brand_id : int
-'  +quantity : int
-'  +short_description : text
-'  +long_description : text
-'  +video_link : text
-'  +sku : string
-'  +price : double
-'  +offer_price : double
-'  +offer_start_date : date
-'  +offer_end_date : date
-'  +is_top : boolean
-'  +is_best : boolean
-'  +is_featured : boolean
-'  +status : boolean
-'  +seo_title : string
-'  +seo_description : text
-'  +is_approved : int
-'
-'}
+class clients
+{
+    +user_id : int
+    +first_name: string
+    +last_name: string
+    +phone: string
+    +created_at: timestamp
+    +updated_at: timestamp
+    +created_by: timestamp
+    +updated_by: timestamp
+}
+'Relation entre clients et Users: Une Client est un utilisateur
+clients "1" -- "1" users : est un utilisateur
 
-class Products1
+class adresses_clients{
+    +id : int
+    +client_id: int
+    +type: string
+    +address1: string
+    +address2: string
+    +city: string
+    +state: string
+    +zip_code: string
+    +country_code: string
+    +created_at: timestamp
+    +updated_at: timestamp
+}
+'Relation entre clients et Users: Une Client est un utilisateur
+clients "1" -- "1..*" adresses_clients : un client a plusieurs adresses
+
+class pays
 {
     +id : int
+    +name: string
+    +states: string
+    +created_at: timestamp
+    +updated_at: timestamp
+}
+
+class commandes
+{
+    +id : int
+    +total_price: double
+    +status: string
+    +created_at: timestamp
+    +updated_at: timestamp
+    +created_by: timestamp
+    +updated_by: timestamp
+}
+class articles_commande
+{
+    +id : int
+    +commande_id: int
+    +product_id: int
+    +quantity: int
+    +unit_price: double
+    +created_at: timestamp
+    +updated_at: timestamp
+}
+class détails_commande{
+    +id : int
+    +first_name: string
+    +last_name: string
+    +phone: string
+    +address1: string
+    +address2: string
+    +city: string
+    +state: string
+    +zip_code: string
+    +country_code: string
+    +created_at: timestamp
+    +updated_at: timestamp
+}
+'Relation entre Order et OrderItem: Une commande contient plusieurs articles
+commandes "1" -- "0..*" articles_commande : contient
+'Relation entre Product et OrderItem: Un produit peut être présent dans plusieurs articles de commande
+produits "1" -- "0..*" articles_commande : fait partie de
+
+class paiements
+{
+    +id : int
+    +commande_id: int
+    +amount: double
+    +status: string
+    +type: string
+    +created_at: timestamp
+    +created_by: timestamp
+}
+'Relation entre Order et Payment: Une commande a un ou plusieurs paiements
+commandes "1" -- "0..1" paiements : a
+
+
+
+
+
+'Définition de la classe Categorie
+class categories   {
+    +id : int
+    +name : string
+    +slug : string
+    +status : boolean
+    +created_by : timestamp
+    +updated_by : timestamp
+    +deleted_by : timestamp
+
+}
+'Définition de la classe produits
+class produits
+{
+    +id : int
+    +category_id: int
     +title: string
     +slug: string
     +image:string
     +image_mime: string
     +image_size: int
     +description: longText
+    +status: boolean
     +price: double
+    +created_at: timestamp
+    +updated_at: timestamp
+    +deleted_at: timestamp
     +created_by: timestamp
     +updated_by: timestamp
     +deleted_by: timestamp
 }
+'Relation entre Category et Product: Une catégorie comporte plusieurs produits
+categories "1" -- "0..*" produits : contient
+produits "plusieurs" --> "1" categories : appartient à
 
-class categories   {
+class users
+{
     +id : int
-    +name : string
-    +slug : string
-    +parent_id : int
-    +status : boolean
-    +created_by : timestamp
-    +updated_by : timestamp
-    +deleted_by : timestamp
+    +name: string
+    +email: string
+    +email_verified_at: string
+    +password: string
+    +role: string
+    +is_admin: boolean
+    +created_at: timestamp
+    +updated_at: timestamp
+
 }
+'Définition de la classe panier
+class panier_articles
+{
+    +id : int
+    +user_id: int
+    +product_id: int
+    +quantity: int
+    +created_at: timestamp
+    +updated_at: timestamp
+
+}
+'Relation entre User et ItemCart: Un utilisateur a plusieurs articles dans son panier
+users "1" -- "0..*" panier_articles : possede
+
 
 
 @enduml
