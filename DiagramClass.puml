@@ -1,7 +1,13 @@
 @startuml
 
-class clients
-{
+skinparam class {
+    BackgroundColor LightBlue
+    ArrowColor DarkBlue
+    BorderColor Black
+    FontSize 12
+}
+
+class clients {
     +user_id : int
     +first_name: string
     +last_name: string
@@ -11,10 +17,10 @@ class clients
     +created_by: timestamp
     +updated_by: timestamp
 }
-'Relation entre clients et Users: Une Client est un utilisateur
+
 clients "1" -- "1" users : est un utilisateur
 
-class adresses_clients{
+class adresses_clients {
     +id : int
     +client_id: int
     +type: string
@@ -27,11 +33,10 @@ class adresses_clients{
     +created_at: timestamp
     +updated_at: timestamp
 }
-'Relation entre clients et Users: Une Client est un utilisateur
+
 clients "1" -- "1..*" adresses_clients : un client a plusieurs adresses
 
-class pays
-{
+class pays {
     +id : int
     +name: string
     +states: string
@@ -39,8 +44,7 @@ class pays
     +updated_at: timestamp
 }
 
-class commandes
-{
+class commandes {
     +id : int
     +total_price: double
     +status: string
@@ -49,8 +53,8 @@ class commandes
     +created_by: timestamp
     +updated_by: timestamp
 }
-class articles_commande
-{
+
+class articles_commande {
     +id : int
     +commande_id: int
     +product_id: int
@@ -59,7 +63,8 @@ class articles_commande
     +created_at: timestamp
     +updated_at: timestamp
 }
-class détails_commande{
+
+class détails_commande {
     +id : int
     +first_name: string
     +last_name: string
@@ -73,13 +78,12 @@ class détails_commande{
     +created_at: timestamp
     +updated_at: timestamp
 }
-'Relation entre Order et OrderItem: Une commande contient plusieurs articles
+
 commandes "1" -- "0..*" articles_commande : contient
-'Relation entre Product et OrderItem: Un produit peut être présent dans plusieurs articles de commande
+
 produits "1" -- "0..*" articles_commande : fait partie de
 
-class paiements
-{
+class paiements {
     +id : int
     +commande_id: int
     +amount: double
@@ -88,15 +92,10 @@ class paiements
     +created_at: timestamp
     +created_by: timestamp
 }
-'Relation entre Order et Payment: Une commande a un ou plusieurs paiements
+
 commandes "1" -- "0..1" paiements : a
 
-
-
-
-
-'Définition de la classe Categorie
-class categories   {
+class categories {
     +id : int
     +name : string
     +slug : string
@@ -104,16 +103,14 @@ class categories   {
     +created_by : timestamp
     +updated_by : timestamp
     +deleted_by : timestamp
-
 }
-'Définition de la classe produits
-class produits
-{
+
+class produits {
     +id : int
     +category_id: int
     +title: string
     +slug: string
-    +image:string
+    +image: string
     +image_mime: string
     +image_size: int
     +description: longText
@@ -126,12 +123,11 @@ class produits
     +updated_by: timestamp
     +deleted_by: timestamp
 }
-'Relation entre Category et Product: Une catégorie comporte plusieurs produits
+
 categories "1" -- "0..*" produits : contient
 produits "plusieurs" --> "1" categories : appartient à
 
-class users
-{
+class users {
     +id : int
     +name: string
     +email: string
@@ -141,22 +137,22 @@ class users
     +is_admin: boolean
     +created_at: timestamp
     +updated_at: timestamp
-
 }
-'Définition de la classe panier
-class panier_articles
-{
+
+class panier_articles {
     +id : int
     +user_id: int
     +product_id: int
     +quantity: int
     +created_at: timestamp
     +updated_at: timestamp
-
 }
-'Relation entre User et ItemCart: Un utilisateur a plusieurs articles dans son panier
-users "1" -- "0..*" panier_articles : possede
 
+users "1" -- "0..*" panier_articles : possède
 
+' Nouvelle Relations détectées pour les détails et les pays
+clients "1" -- "0..1" pays : réside dans
+commandes "1" -- "1" détails_commande : a des détails
+détails_commande "1" -- "1" pays : basé en
 
 @enduml

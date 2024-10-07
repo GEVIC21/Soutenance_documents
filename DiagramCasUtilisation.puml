@@ -1,0 +1,100 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Administrateur
+actor "Système de Paiement" as PaymentSystem
+actor "Système d'Email" as EmailSystem
+actor "Service de Support" as SupportService
+
+rectangle "Système de Commerce Électronique" {
+    (Authentification Administrateur) as AuthA
+    (Gérer Produits) as GPdts
+    (Gérer Catégories) as GC
+    (Gérer Utilisateurs) as GU
+    (Analyser Ventes) as AV
+    (Modifier Paramètres Système) as MPS
+    (Superviser Commandes) as SC
+    (Intégrer Système de Paiement) as ISP
+    (Envoyer Rapports de Ventes) as ERV
+    (Gérer Feedbacks Clients) as GFC
+    (Support Technique) as ST
+}
+
+Administrateur --> AuthA
+Administrateur --> GPdts
+Administrateur --> GC
+Administrateur --> GU
+Administrateur --> AV
+Administrateur --> MPS
+Administrateur --> SC
+ISP --> PaymentSystem
+ERV --> EmailSystem
+Administrateur --> GFC
+ST --> SupportService
+
+
+
+'
+'actor Utilisateur_Enregistré as Utilisateur_Enregistre
+'
+'rectangle "Système de Commerce Électronique" {
+'    (Authentification) as Auth
+'    (Gérer Panier) as GP
+'    (Consulter Historique Commande) as CHC
+'    (Modifier Compte) as MC
+'    (Configurer Préférences) as CP
+'    (Gérer Notifications) as GN
+'    (Suivre Commandes) as SC
+'    (Recevoir Notifications) as RN
+'}
+'
+'actor "Système de Notification" as NotificationSystem
+'
+'Utilisateur_Enregistre --> Auth
+'Utilisateur_Enregistre --> GP
+'Utilisateur_Enregistre --> CHC
+'Utilisateur_Enregistre --> MC
+'Utilisateur_Enregistre --> CP
+'Utilisateur_Enregistre --> GN
+'Utilisateur_Enregistre --> SC
+'GN --> RN
+'
+'RN ---> NotificationSystem
+
+
+'actor Client
+'actor "Système d'Email" as EmailSystem
+'actor "Service de Livraison" as DeliveryService
+'
+'rectangle "Système de Commerce Électronique" {
+'    (Créer un Compte) as CCA
+'    (Authentification) as Auth
+'    (Gérer Informations Client) as GIC
+'    (Naviguer Produits) as NP
+'    (Ajouter au Panier) as AP
+'    (Passer Commande) as PC
+'    (Payer Commande) as PayC
+'    (Consulter Commandes) as CC
+'    (Gérer Adresses) as GA
+'    (Évaluer Produits) as EP
+'    (Recevoir Confirmation de Commande) as RCC
+'    (Suivre Livraison) as SL
+'}
+'
+'Client --> CCA
+'Client --> Auth
+'Client --> GIC
+'Client --> NP
+'Client --> AP
+'Client --> PC
+'Client --> PayC
+'Client --> CC
+'Client --> GA
+'Client --> EP
+'PC --> RCC
+'RCC --> EmailSystem
+'PC --> SL
+'SL --> DeliveryService
+
+@enduml

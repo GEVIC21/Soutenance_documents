@@ -1,0 +1,161 @@
+@startuml
+
+skinparam class {
+    BackgroundColor LightBlue
+    ArrowColor DarkBlue
+    BorderColor Black
+    FontSize 12
+}
+
+entity clients {
+    *user_id : int
+    --
+    first_name: string
+    last_name: string
+    phone: string
+    created_at: timestamp
+    updated_at: timestamp
+    created_by: timestamp
+    updated_by: timestamp
+}
+
+entity adresses_clients {
+    *id : int
+    --
+    client_id: int
+    type: string
+    address1: string
+    address2: string
+    city: string
+    state: string
+    zip_code: string
+    country_code: string
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+entity pays {
+    *id : int
+    --
+    name: string
+    states: string
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+entity commandes {
+    *id : int
+    --
+    total_price: double
+    status: string
+    created_at: timestamp
+    updated_at: timestamp
+    created_by: timestamp
+    updated_by: timestamp
+}
+
+entity articles_commande {
+    *id : int
+    --
+    commande_id: int
+    product_id: int
+    quantity: int
+    unit_price: double
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+entity détails_commande {
+    *id : int
+    --
+    first_name: string
+    last_name: string
+    phone: string
+    address1: string
+    address2: string
+    city: string
+    state: string
+    zip_code: string
+    country_code: string
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+entity paiements {
+    *id : int
+    --
+    commande_id: int
+    amount: double
+    status: string
+    type: string
+    created_at: timestamp
+    created_by: timestamp
+}
+
+entity categories {
+    *id : int
+    --
+    name : string
+    slug : string
+    status : boolean
+    created_by : timestamp
+    updated_by : timestamp
+    deleted_by : timestamp
+}
+
+entity produits {
+    *id : int
+    --
+    category_id: int
+    title: string
+    slug: string
+    image: string
+    image_mime: string
+    image_size: int
+    description: longText
+    status: boolean
+    price: double
+    created_at: timestamp
+    updated_at: timestamp
+    deleted_at: timestamp
+    created_by: timestamp
+    updated_by: timestamp
+    deleted_by: timestamp
+}
+
+entity users {
+    *id : int
+    --
+    name: string
+    email: string
+    email_verified_at: string
+    password: string
+    role: string
+    is_admin: boolean
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+entity panier_articles {
+    *id : int
+    --
+    user_id: int
+    product_id: int
+    quantity: int
+    created_at: timestamp
+    updated_at: timestamp
+}
+
+' Relations entre les entités (tables)
+clients ||--o{ adresses_clients : "possède"
+clients ||--|| users : "est un utilisateur"
+clients ||--|| pays : "réside dans"
+commandes }|--|{ articles_commande : "contient"
+commandes ||--|| détails_commande : "a des détails"
+détails_commande ||--|| pays : "basé en"
+commandes }|--|| paiements : "a"
+categories ||--o{ produits : "contient"
+produits ||--o{ articles_commande : "fait partie de"
+users ||--o{ panier_articles : "possède"
+
+@enduml

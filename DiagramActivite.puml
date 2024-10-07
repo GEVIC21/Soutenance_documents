@@ -1,0 +1,70 @@
+@startuml
+
+
+|Administrateur|
+start
+:Accéder au tableau de bord de gestion;
+
+:Authentification avec identifiants;
+if (Authentification réussie ?) then (Oui)
+    :Accéder à la section des produits;
+    :Visualiser la liste des produits;
+
+    :Sélectionner une action;
+    fork
+    :Ajouter un nouveau produit;
+    :Remplir le formulaire (nom, description, prix, photos, catégorie);
+    :Sauvegarder le produit;
+    fork again
+    :Modifier un produit existant;
+    :Mettre à jour les informations (prix, stock, description);
+    fork again
+    :Supprimer un produit;
+    :Confirmer la suppression;
+    end fork
+
+    :Mettre à jour la base de données;
+    :Appliquer les modifications en direct sur le site;
+
+    :Vérification des changements;
+    :Confirmation visuelle des mises à jour;
+    :Envoyer des notifications internes (équipe de vente, marketing);
+
+else (Non)
+    :Afficher un message d'erreur d'authentification;
+    stop
+endif
+
+:Retour au tableau de bord principal;
+stop
+@enduml
+
+
+'|Client|
+'start
+':Choisir de passer une commande;
+'
+':Naviguer et sélectionner des produits;
+':Additionner les produits au panier;
+'
+':Vérifier le contenu du panier;
+'if (Le client est-il authentifié ?) then (Oui)
+'    :Continuer;
+'else (Non)
+'    :S'authentifier;
+'endif
+'
+':Entrer ou sélectionner une adresse de livraison;
+'
+':Choisir les options de livraison;
+'
+':Effectuer le paiement;
+'
+'|Système|
+':Envoyer une confirmation de commande;
+':Envoyer une notification au client;
+'
+'|Client|
+':Recevoir confirmation et notification;
+'stop
+@enduml
