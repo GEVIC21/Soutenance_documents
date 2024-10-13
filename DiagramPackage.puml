@@ -1,75 +1,43 @@
 @startuml
 
-title Diagramme de Packages pour une Application de E-commerce
-skinparam titleFontSize 20
-skinparam titleFontColor #3A3A3A
-skinparam titleBorderColor #3A3A3A
-
-' Définition des couleurs de fond et des bordures
-skinparam package {
-    BackgroundColor #E5F6FF
-    BorderColor #3A3A3A
-    FontSize 14
-    FontColor #3A3A3A
-}
-
-' Définition des composants internes
-package "Application de E-commerce" {
-
-    package "Interface Utilisateur" {
-        class ApplicationWeb {
-            + Accueil
-            + DetailProduit
-        }
-
-    }
-
-    package "Services Backend" {
-        class ServiceProduit {
-            + listerProduits()
-            + obtenirDetailsProduit()
-        }
-        class ServiceCommande {
-            + creerCommande()
-            + annulerCommande()
-        }
-        class ServiceUtilisateur {
-            + enregistrerUtilisateur()
-            + connecterUtilisateur()
-        }
-    }
-
-    package "Bases de Données" {
-        class BaseProduits {
-            + stockerDonneesProduit()
-        }
-        class BaseCommandes {
-            + traiterDonneesCommande()
-        }
-        class BaseUtilisateurs {
-            + gererDonneesUtilisateur()
-        }
+package "Front-End" {
+    component VueApp {
+        [UserInterface]
+        [Router]
+        [State Management]
     }
 }
 
-' Définition des systèmes externes
-package "Systèmes Externes" {
-    class PasserellePaiement {
-        + traiterPaiement()
-    }
-    class SystemeFournisseur {
-        + synchroniserInventaire()
-    }
-    class ServiceEmail {
-        + envoyerEmail()
+package "Back-End" {
+    component LaravelAPI {
+        [AuthController]
+        [ProductController]
+        [OrderController]
+        [Middleware]
+        [Service Layer]
     }
 }
 
-' Connexions
-ApplicationWeb --> ServiceProduit : "Accéder aux produits"
-ApplicationWeb --> ServiceCommande : "Passer commande"
-ServiceCommande --> PasserellePaiement : "Traitement du paiement"
-ServiceProduit --> SystemeFournisseur : "Mise à jour de l'inventaire"
-ServiceCommande --> ServiceEmail : "Envoi d'e-mails"
+database MySQL {
+    [UserTable]
+    [ProductTable]
+    [OrderTable]
+    [AddressTable]
+}
+
+package "External Services" {
+    component "Payment Gateway" {
+        [Stripe API]
+    }
+    component "Email Service" {
+        [SMTP Server]
+    }
+}
+
+' Connexions et interactions
+VueApp --> LaravelAPI : "RESTful HTTP Requests"
+LaravelAPI --> MySQL : "Read/Write SQL Queries"
+LaravelAPI --> "Payment Gateway" : "Process Payments"
+LaravelAPI --> "Email Service" : "Send Email Notifications"
 
 @enduml

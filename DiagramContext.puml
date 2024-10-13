@@ -35,10 +35,10 @@ skinparam package {
 actor Customer as "Client"
 actor Admin as "Administrateur"
 
-' Systèmes externes
-actor PaymentGateway as "Passerelle de Paiement"
-actor SupplierSystem as "Système Fournisseur"
-actor EmailService as "Service d'Envoi d'Emails"
+' Systèmes externes représentés comme composants
+component PaymentGateway as "Passerelle de Paiement"
+component SupplierSystem as "Système Fournisseur"
+component EmailService as "Service d'Envoi d'Emails"
 
 ' Système principal
 package "Application de E-commerce" {
@@ -46,7 +46,6 @@ package "Application de E-commerce" {
     [Gestion Commandes] as Commandes
     [Gestion Comptes Utilisateurs] as Comptes
 }
-
 ' Connexions
 Customer --> Produits : "Consulte Produits"
 Customer --> Commandes : "Passe Commandes"

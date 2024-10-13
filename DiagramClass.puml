@@ -7,6 +7,22 @@ skinparam class {
     FontSize 12
 }
 
+' Organisation visuelle des classes
+left to right direction
+
+' Mise en place des classes
+class users {
+    +id : int
+    +name: string
+    +email: string
+    +email_verified_at: string
+    +password: string
+    +role: string
+    +is_admin: boolean
+    +created_at: timestamp
+    +updated_at: timestamp
+}
+
 class clients {
     +user_id : int
     +first_name: string
@@ -18,8 +34,6 @@ class clients {
     +updated_by: timestamp
 }
 
-clients "1" -- "1" users : est un utilisateur
-
 class adresses_clients {
     +id : int
     +client_id: int
@@ -30,16 +44,6 @@ class adresses_clients {
     +state: string
     +zip_code: string
     +country_code: string
-    +created_at: timestamp
-    +updated_at: timestamp
-}
-
-clients "1" -- "1..*" adresses_clients : un client a plusieurs adresses
-
-class pays {
-    +id : int
-    +name: string
-    +states: string
     +created_at: timestamp
     +updated_at: timestamp
 }
@@ -79,32 +83,6 @@ class détails_commande {
     +updated_at: timestamp
 }
 
-commandes "1" -- "0..*" articles_commande : contient
-
-produits "1" -- "0..*" articles_commande : fait partie de
-
-class paiements {
-    +id : int
-    +commande_id: int
-    +amount: double
-    +status: string
-    +type: string
-    +created_at: timestamp
-    +created_by: timestamp
-}
-
-commandes "1" -- "0..1" paiements : a
-
-class categories {
-    +id : int
-    +name : string
-    +slug : string
-    +status : boolean
-    +created_by : timestamp
-    +updated_by : timestamp
-    +deleted_by : timestamp
-}
-
 class produits {
     +id : int
     +category_id: int
@@ -124,19 +102,24 @@ class produits {
     +deleted_by: timestamp
 }
 
-categories "1" -- "0..*" produits : contient
-produits "plusieurs" --> "1" categories : appartient à
-
-class users {
+class paiements {
     +id : int
-    +name: string
-    +email: string
-    +email_verified_at: string
-    +password: string
-    +role: string
-    +is_admin: boolean
+    +commande_id: int
+    +amount: double
+    +status: string
+    +type: string
     +created_at: timestamp
-    +updated_at: timestamp
+    +created_by: timestamp
+}
+
+class categories {
+    +id : int
+    +name : string
+    +slug : string
+    +status : boolean
+    +created_by : timestamp
+    +updated_by : timestamp
+    +deleted_by : timestamp
 }
 
 class panier_articles {
@@ -148,11 +131,28 @@ class panier_articles {
     +updated_at: timestamp
 }
 
-users "1" -- "0..*" panier_articles : possède
+class pays {
+    +id : int
+    +name: string
+    +states: string
+    +created_at: timestamp
+    +updated_at: timestamp
+}
 
-' Nouvelle Relations détectées pour les détails et les pays
-clients "1" -- "0..1" pays : réside dans
-commandes "1" -- "1" détails_commande : a des détails
-détails_commande "1" -- "1" pays : basé en
+' Relations entre les classes
+clients "1" -- "1" users : "est un utilisateur"
+clients "1" -- "1..*" adresses_clients : "a plusieurs adresses"
+clients "1" -- "0..1" pays : "réside dans"
+
+commandes "1" -- "0..*" articles_commande : "contient"
+commandes "1" -- "1" détails_commande : "a des détails"
+commandes "1" -- "0..1" paiements : "a un"
+
+produits "1" -- "0..*" articles_commande : "fait partie de"
+produits "n" --> "1" categories : "appartient à"
+categories "1" -- "0..*" produits : "contient"
+
+users "1" -- "0..*" panier_articles : "possède"
+détails_commande "1" -- "1" pays : "basé en"
 
 @enduml
