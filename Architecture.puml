@@ -1,0 +1,22 @@
+@startuml
+package "Architecture en Trois Tiers" {
+
+    package "Tier de Présentation" {
+        [Interface Utilisateur]
+    }
+
+    package "Tier d'Application" {
+        [Logique Métier]
+    }
+
+    package "Tier de Données" {
+        [Base de Données]
+    }
+
+    [Interface Utilisateur] --> [Logique Métier]: Requêtes/API
+    [Logique Métier] --> [Base de Données]: Requêtes SQL
+    [Base de Données] --> [Logique Métier]: Réponses SQL
+    [Logique Métier] --> [Interface Utilisateur]: Réponses/API
+
+}
+@enduml
