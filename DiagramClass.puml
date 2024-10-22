@@ -7,152 +7,143 @@ skinparam class {
     FontSize 12
 }
 
-' Organisation visuelle des classes
 left to right direction
 
-' Mise en place des classes
-class users {
+' Utilisateur et Client
+class Utilisateur {
     +id : int
-    +name: string
+    +nom: string
     +email: string
-    +email_verified_at: string
-    +password: string
+    +email_verifie_a: string
+    +mot_de_passe: string
     +role: string
-    +is_admin: boolean
-    +created_at: timestamp
-    +updated_at: timestamp
+    +est_admin: boolean
+    +cree_le: timestamp
+    +modifie_le: timestamp
 }
 
-class clients {
-    +user_id : int
-    +first_name: string
-    +last_name: string
-    +phone: string
-    +created_at: timestamp
-    +updated_at: timestamp
-    +created_by: timestamp
-    +updated_by: timestamp
+class Client {
+    +utilisateur_id : int
+    +prenom: string
+    +nom_de_famille: string
+    +telephone: string
+    +cree_le: timestamp
+    +modifie_le: timestamp
+    +cree_par: timestamp
+    +modifie_par: timestamp
 }
 
-class adresses_clients {
+' Adresse et Pays
+class Adresse {
     +id : int
     +client_id: int
     +type: string
-    +address1: string
-    +address2: string
-    +city: string
-    +state: string
-    +zip_code: string
-    +country_code: string
-    +created_at: timestamp
-    +updated_at: timestamp
+    +adresse1: string
+    +adresse2: string
+    +ville: string
+    +etat: string
+    +code_postal: string
+    +code_pays: string
+    +cree_le: timestamp
+    +modifie_le: timestamp
 }
 
-class commandes {
+class Pays {
     +id : int
-    +total_price: double
-    +status: string
-    +created_at: timestamp
-    +updated_at: timestamp
-    +created_by: timestamp
-    +updated_by: timestamp
+    +nom: string
+    +etats: string
+    +cree_le: timestamp
+    +modifie_le: timestamp
 }
 
-class articles_commande {
+' Commande et éléments associés
+class Commande {
+    +id : int
+    +client_id: int
+    +prix_total: double
+    +statut: string
+    +cree_le: timestamp
+    +modifie_le: timestamp
+    +cree_par: timestamp
+    +modifie_par: timestamp
+}
+
+class ArticleCommande {
     +id : int
     +commande_id: int
-    +product_id: int
-    +quantity: int
-    +unit_price: double
-    +created_at: timestamp
-    +updated_at: timestamp
+    +produit_id: int
+    +quantite: int
+    +prix_unitaire: double
+    +cree_le: timestamp
+    +modifie_le: timestamp
 }
 
-class détails_commande {
+class Paiement {
     +id : int
-    +first_name: string
-    +last_name: string
-    +phone: string
-    +address1: string
-    +address2: string
-    +city: string
-    +state: string
-    +zip_code: string
-    +country_code: string
-    +created_at: timestamp
-    +updated_at: timestamp
+    +commande_id: int
+    +montant: double
+    +statut: string
+    +type: string
+    +cree_le: timestamp
+    +cree_par: timestamp
 }
 
-class produits {
+' Produit et Catégorie
+class Produit {
     +id : int
-    +category_id: int
-    +title: string
+    +categorie_id: int
+    +titre: string
     +slug: string
     +image: string
     +image_mime: string
-    +image_size: int
+    +taille_image: int
     +description: longText
-    +status: boolean
-    +price: double
-    +created_at: timestamp
-    +updated_at: timestamp
-    +deleted_at: timestamp
-    +created_by: timestamp
-    +updated_by: timestamp
-    +deleted_by: timestamp
+    +statut: boolean
+    +prix: double
+    +cree_le: timestamp
+    +modifie_le: timestamp
+    +supprime_le: timestamp
+    +cree_par: timestamp
+    +modifie_par: timestamp
+    +supprime_par: timestamp
 }
 
-class paiements {
+class Categorie {
     +id : int
-    +commande_id: int
-    +amount: double
-    +status: string
-    +type: string
-    +created_at: timestamp
-    +created_by: timestamp
+    +nom: string
+    +slug: string
+    +statut: boolean
+    +cree_par: timestamp
+    +modifie_par: timestamp
+    +supprime_par: timestamp
 }
 
-class categories {
+' Panier
+class ArticlePanier {
     +id : int
-    +name : string
-    +slug : string
-    +status : boolean
-    +created_by : timestamp
-    +updated_by : timestamp
-    +deleted_by : timestamp
+    +utilisateur_id: int
+    +produit_id: int
+    +quantite: int
+    +cree_le: timestamp
+    +modifie_le: timestamp
 }
 
-class panier_articles {
-    +id : int
-    +user_id: int
-    +product_id: int
-    +quantity: int
-    +created_at: timestamp
-    +updated_at: timestamp
-}
+' Relations
+Client --|> Utilisateur : "est un"
+Client "1" -- "1..*" Adresse : "a plusieurs adresses"
+Client "1" -- "0..1" Pays : "réside dans"
+Client "1" -- "0..*" Commande : "passe des"
 
-class pays {
-    +id : int
-    +name: string
-    +states: string
-    +created_at: timestamp
-    +updated_at: timestamp
-}
+Commande "1" -- "0..*" ArticleCommande : "contient"
+Commande "1" -- "0..1" Paiement : "a un"
+Commande "0..*" -- "1" Utilisateur : "passe par"
 
-' Relations entre les classes
-clients "1" -- "1" users : "est un utilisateur"
-clients "1" -- "1..*" adresses_clients : "a plusieurs adresses"
-clients "1" -- "0..1" pays : "réside dans"
+Produit "1" -- "0..*" ArticleCommande : "fait partie de"
+Categorie "1" -- "0..*" Produit : "contient"
 
-commandes "1" -- "0..*" articles_commande : "contient"
-commandes "1" -- "1" détails_commande : "a des détails"
-commandes "1" -- "0..1" paiements : "a un"
+Utilisateur "1" -- "0..*" ArticlePanier : "possède"
+ArticlePanier "0..*" -- "1" Produit : "en contient"
 
-produits "1" -- "0..*" articles_commande : "fait partie de"
-produits "n" --> "1" categories : "appartient à"
-categories "1" -- "0..*" produits : "contient"
-
-users "1" -- "0..*" panier_articles : "possède"
-détails_commande "1" -- "1" pays : "basé en"
+Adresse "0..*" -- "1" Pays : "basé en"
 
 @enduml
