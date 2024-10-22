@@ -1,43 +1,50 @@
 @startuml
 
 package "Front-End" {
-    component VueApp {
-        [UserInterface]
-        [Router]
-        [State Management]
-    }
+  component VueApp {
+    [Interface Utilisateur]
+    [Routeur]
+    [Gestion d'État]
+  }
 }
 
 package "Back-End" {
-    component LaravelAPI {
-        [AuthController]
-        [ProductController]
-        [OrderController]
-        [Middleware]
-        [Service Layer]
-    }
+  component LaravelAPI {
+    [Contrôleur Authentification]
+    [Contrôleur Produit]
+    [Contrôleur Commande]
+    [Middleware]
+    [Couche Services]
+  }
 }
 
 database MySQL {
-    [UserTable]
-    [ProductTable]
-    [OrderTable]
-    [AddressTable]
+  [Table Utilisateur]
+  [Table Produit]
+  [Table Commande]
+  [Table Adresse]
 }
 
-package "External Services" {
-    component "Payment Gateway" {
-        [Stripe API]
-    }
-    component "Email Service" {
-        [SMTP Server]
-    }
+package "Services Externes" {
+  component "Passerelle de Paiement" {
+    [API Stripe]
+  }
+  component "Service de Mail" {
+    [Serveur SMTP]
+  }
 }
 
 ' Connexions et interactions
-VueApp --> LaravelAPI : "RESTful HTTP Requests"
-LaravelAPI --> MySQL : "Read/Write SQL Queries"
-LaravelAPI --> "Payment Gateway" : "Process Payments"
-LaravelAPI --> "Email Service" : "Send Email Notifications"
+VueApp --> LaravelAPI : "Requêtes HTTP RESTful"
+LaravelAPI --> MySQL : "Requêtes SQL de Lecture/Écriture"
+LaravelAPI --> "Passerelle de Paiement" : "Traitement des Paiements"
+LaravelAPI --> "Service de Mail" : "Envoi de Notifications par Email"
+
+' Exemples de import et use
+[Interface Utilisateur] ..> [Routeur] : <<use>>
+[Routeur] ..> [Gestion d'État] : <<use>>
+
+[Contrôleur Produit] ..> [Couche Services] : <<use>>
+[Contrôleur Commande] ..> [Middleware] : <<use>>
 
 @enduml

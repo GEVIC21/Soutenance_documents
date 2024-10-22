@@ -2,36 +2,49 @@
 left to right direction
 skinparam packageStyle rectangle
 
-'actor Administrateur
-'actor "Système de Paiement" as PaymentSystem
-'actor "Système d'Email" as EmailSystem
-'actor "Service de Support" as SupportService
-'
-'rectangle "Système de Commerce Électronique" {
-'    (Authentification Administrateur) as AuthA
-'    (Gérer Produits) as GPdts
-'    (Gérer Catégories) as GC
-'    (Gérer Utilisateurs) as GU
-'    (Analyser Ventes) as AV
-'    (Modifier Paramètres Système) as MPS
-'    (Superviser Commandes) as SC
-'    (Intégrer Système de Paiement) as ISP
-'    (Envoyer Rapports de Ventes) as ERV
-'    (Gérer Feedbacks Clients) as GFC
-'    (Support Technique) as ST
-'}
-'
-'Administrateur --> AuthA
-'Administrateur --> GPdts
-'Administrateur --> GC
-'Administrateur --> GU
-'Administrateur --> AV
-'Administrateur --> MPS
-'Administrateur --> SC
-'ISP --> PaymentSystem
-'ERV --> EmailSystem
-'Administrateur --> GFC
-'ST --> SupportService
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Administrateur
+component "Système de Paiement" as PaymentSystem
+component "Système d'Email" as EmailSystem
+component "Service de Support" as SupportService
+
+rectangle "Système de Commerce Électronique" {
+  (Authentification Administrateur) as AuthA
+  (Gérer Produits) as GPdts
+  (Gérer Catégories) as GC
+  (Gérer Utilisateurs) as GU
+  (Analyser Ventes) as AV
+  (Modifier Paramètres Système) as MPS
+  (Superviser Commandes) as SC
+  (Gérer Feedbacks Clients) as GFC
+
+  (Intégrer Système de Paiement) as ISP
+  (Envoyer Rapports de Ventes) as ERV
+  (Support Technique) as ST
+}
+
+Administrateur --> AuthA
+Administrateur --> GPdts
+Administrateur --> GC
+Administrateur --> GU
+Administrateur --> AV
+Administrateur --> MPS
+Administrateur --> SC
+Administrateur --> GFC
+
+ISP --> PaymentSystem
+ERV --> EmailSystem
+ST --> SupportService
+
+' Extensions et Inclusions
+MPS <|-- ISP : <<include>>
+AV <|-- ERV : <<include>>
+SC <|-- ST : <<extend>>
+
+@enduml
 
 
 
@@ -66,42 +79,33 @@ skinparam packageStyle rectangle
 
 
 ' Acteur
-actor Client
+'actor Client
+'
+'' Systèmes externes
+'component "Système d'Email" as EmailSystem
+'component "Service de Livraison" as DeliveryService
+'
+'' Système principal
+'rectangle "Système de Commerce Électronique" {
+'  (Naviguer Produits) as NP
+'  (Ajouter au Panier) as AP
+'  (Passer Commande) as PC
+'  (Payer Commande) as PayC
+'  (Recevoir Confirmation de Commande) as RCC
+'  (Suivre Livraison) as SL
+'}
+'
+'' Connexions
+'Client --> NP : "Navigue"
+'Client --> AP : "Ajoute"
+'Client --> PC : "Passe"
+'Client --> PayC : "Paye"
+'PC --> RCC : "Déclenche"
+'RCC --> EmailSystem : "Envoie email"
+'PC --> SL : "Initie"
+'SL --> DeliveryService : "Suit"
 
-' Systèmes externes
-component "Système d'Email" as EmailSystem
-component "Service de Livraison" as DeliveryService
 
-' Système principal
-rectangle "Système de Commerce Électronique" {
-    (Créer un Compte) as CCA
-    (Authentification) as Auth
-    (Gérer Informations Client) as GIC
-    (Naviguer Produits) as NP
-    (Ajouter au Panier) as AP
-    (Passer Commande) as PC
-    (Payer Commande) as PayC
-    (Consulter Commandes) as CC
-    (Gérer Adresses) as GA
-    (Évaluer Produits) as EP
-    (Recevoir Confirmation de Commande) as RCC
-    (Suivre Livraison) as SL
-}
 
-' Connexions
-Client --> CCA : "Crée"
-Client --> Auth : "S'authentifie"
-Client --> GIC : "Gère"
-Client --> NP : "Navigue"
-Client --> AP : "Ajoute"
-Client --> PC : "Passe"
-Client --> PayC : "Paye"
-Client --> CC : "Consulte"
-Client --> GA : "Gère"
-Client --> EP : "Évalue"
-PC --> RCC : "Déclenche"
-RCC --> EmailSystem : "Envoie email"
-PC --> SL : "Initie"
-SL --> DeliveryService : "Suit"
 
 @enduml

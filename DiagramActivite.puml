@@ -1,43 +1,37 @@
+
+
+
 @startuml
-
-
 |Administrateur|
 start
 :Accéder au tableau de bord de gestion;
-
 :Authentification avec identifiants;
 if (Authentification réussie ?) then (Oui)
-    :Accéder à la section des produits;
-    :Visualiser la liste des produits;
-
-    :Sélectionner une action;
-    fork
+  :Accéder à la section des produits;
+  :Visualiser la liste des produits;
+  :Sélectionner une action;
+  fork
     :Ajouter un nouveau produit;
-    :Remplir le formulaire (nom, description, prix, photos, catégorie);
+    :Remplir le formulaire;
     :Sauvegarder le produit;
-    fork again
-    :Modifier un produit existant;
-    :Mettre à jour les informations (prix, stock, description);
-    fork again
-    :Supprimer un produit;
-    :Confirmer la suppression;
-    end fork
-
-    :Mettre à jour la base de données;
-    :Appliquer les modifications en direct sur le site;
-
-    :Vérification des changements;
-    :Confirmation visuelle des mises à jour;
-    :Envoyer des notifications internes (équipe de vente, marketing);
-
+  end fork
+  :Mettre à jour la base de données;
+  :Appliquer les modifications;
+  :Envoyer une confirmation;
 else (Non)
-    :Afficher un message d'erreur d'authentification;
-    stop
+  :Afficher un message d'erreur d'authentification;
+  :Retourner à l'écran de connexion;
 endif
-
 :Retour au tableau de bord principal;
 stop
+
+|Système|
+start
+:Exécuter actions système automatiques;
+stop
 @enduml
+
+
 
 
 '|Client|
@@ -45,7 +39,7 @@ stop
 ':Choisir de passer une commande;
 '
 ':Naviguer et sélectionner des produits;
-':Additionner les produits au panier;
+':Ajouter  les produits au panier;
 '
 ':Vérifier le contenu du panier;
 'if (Le client est-il authentifié ?) then (Oui)
