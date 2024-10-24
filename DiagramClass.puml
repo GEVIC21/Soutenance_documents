@@ -1,10 +1,19 @@
 @startuml
 
+' Définir un style global avec une taille de police plus grande
+skinparam defaultFontName Arial
+skinparam defaultFontSize 35
+
+skinparam ArrowFontSize 35
+skinparam NoteFontSize 35
+
 skinparam class {
     BackgroundColor LightBlue
     ArrowColor DarkBlue
     BorderColor Black
-    FontSize 12
+    FontSize 35
+    AttributeFontSize 35
+    StereotypeFontSize 35
 }
 
 left to right direction

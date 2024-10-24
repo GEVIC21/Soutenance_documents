@@ -2,38 +2,39 @@
 
 ' Titre avec style
 title Diagramme de Contexte pour une Application de E-commerce
-skinparam titleFontSize 20
+skinparam titleFontSize 40
 skinparam titleFontColor #3A3A3A
 skinparam titleBorderColor #3A3A3A
 
 left to right direction
 
-' Définir les couleurs globales
+' Définir une taille de police globale
+skinparam defaultFontSize 30
 skinparam backgroundColor #F9F9F9
-skinparam component {
-    BackgroundColor #CCE5FF
-    ArrowColor #999999
-    ArrowFontSize 12
-    ArrowThickness 2
+skinparam actor {
+  FontSize 30
+  FontColor #000000
 }
 
-' Acteurs avec styles
-skinparam actor {
-    FontSize 14
-    FontColor #3A3A3A
-    BackgroundColor #FFF3CD
-    BorderColor #FFDD00
+' Définition des acteurs
+actor "Client" as Customer #FF5733
+actor "Administrateur" as Admin #33C1FF
+
+' Styles pour les composants
+skinparam component {
+  BackgroundColor #CCE5FF
+  ArrowColor #999999
+  ArrowFontSize 30
+  ArrowThickness 2
+  FontSize 30
 }
 
 ' Styles pour les packages
 skinparam package {
-    BackgroundColor #E0E7FF
-    BorderColor #3A3A3A
+  BackgroundColor #E0E7FF
+  BorderColor #3A3A3A
+  FontSize 30
 }
-
-' Acteurs utilisateurs
-actor Customer as "Client"
-actor Admin as "Administrateur"
 
 ' Systèmes externes représentés comme composants
 component PaymentGateway as "Passerelle de Paiement"
@@ -42,21 +43,22 @@ component EmailService as "Service d'Envoi d'Emails"
 
 ' Système principal
 package "Application de E-commerce" {
-    [Navigation Produits] as Produits
-    [Gestion Commandes] as Commandes
-    [Gestion Comptes Utilisateurs] as Comptes
+  [Navigation Produits] as Produits
+  [Gestion Commandes] as Commandes
+  [Gestion Comptes Utilisateurs] as Comptes
 }
-' Connexions
-Customer --> Produits : "Consulte Produits"
-Customer --> Commandes : "Passe Commandes"
-Customer --> Comptes : "Gère son compte"
 
-Admin --> Produits : "Gère Produits"
-Admin --> Commandes : "Supervise Commandes"
-Admin --> Comptes : "Gère Comptes Utilisateurs"
+' Connexions avec des flèches droites
+Customer -[#999999]-> Produits : "Consulte Produits"
+Customer -[#999999]-> Commandes : "Passe Commandes"
+Customer -[#999999]-> Comptes : "Gère son compte"
 
-Produits --> SupplierSystem : "Synchronisation Produits"
-Commandes --> PaymentGateway : "Traitement Paiement"
-Commandes --> EmailService : "Envoi Confirmation d'Achat / Notifications"
+Admin -[#999999]-> Produits : "Gère Produits"
+Admin -[#999999]-> Commandes : "Supervise Commandes"
+Admin -[#999999]-> Comptes : "Gère Comptes Utilisateurs"
+
+Produits -[#999999]-> SupplierSystem : "Synchronisation Produits"
+Commandes -[#999999]-> PaymentGateway : "Traitement Paiement"
+Commandes -[#999999]-> EmailService : "Envoi Confirmation d'Achat / Notifications"
 
 @enduml

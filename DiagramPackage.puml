@@ -1,37 +1,55 @@
 @startuml
 
+' Paramètres globaux pour une police plus grande
+skinparam defaultFontName Arial
+skinparam defaultFontSize 35
+
+skinparam component {
+    FontSize 35
+}
+
+skinparam database {
+    FontSize 35
+}
+
+skinparam package {
+    FontSize 35
+}
+
+left to right direction
+
 package "Front-End" {
-  component VueApp {
-    [Interface Utilisateur]
-    [Routeur]
-    [Gestion d'État]
-  }
+    component VueApp {
+        [Interface Utilisateur]
+        [Routeur]
+        [Gestion d'État]
+    }
 }
 
 package "Back-End" {
-  component LaravelAPI {
-    [Contrôleur Authentification]
-    [Contrôleur Produit]
-    [Contrôleur Commande]
-    [Middleware]
-    [Couche Services]
-  }
+    component LaravelAPI {
+        [Contrôleur Authentification]
+        [Contrôleur Produit]
+        [Contrôleur Commande]
+        [Middleware]
+        [Couche Services]
+    }
 }
 
 database MySQL {
-  [Table Utilisateur]
-  [Table Produit]
-  [Table Commande]
-  [Table Adresse]
+    [Table Utilisateur]
+    [Table Produit]
+    [Table Commande]
+    [Table Adresse]
 }
 
 package "Services Externes" {
-  component "Passerelle de Paiement" {
-    [API Stripe]
-  }
-  component "Service de Mail" {
-    [Serveur SMTP]
-  }
+    component "Passerelle de Paiement" {
+        [API Stripe]
+    }
+    component "Service de Mail" {
+        [Serveur SMTP]
+    }
 }
 
 ' Connexions et interactions
